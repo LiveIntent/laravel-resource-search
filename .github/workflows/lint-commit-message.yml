@@ -1,0 +1,16 @@
+name: lint-commit-message
+
+on:
+  push:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+
+      - uses: wagoid/commitlint-github-action@v3

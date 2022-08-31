@@ -1,0 +1,22 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+
+    paths:
+        - config
+        - src
+        - tests
+
+    # The level 9 is the highest level
+    level: 5
+
+    ignoreErrors:
+        - '#Call to an undefined method Illuminate\\Testing\\TestResponse::assertResponseCount\(\)#'
+        - '#Call to an undefined method Illuminate\\Testing\\TestResponse::assertValidationErrors\(\)#'
+
+    excludePaths:
+        - ./src/RelationsResolver.php
+
+    checkMissingIterableValueType: false

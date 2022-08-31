@@ -1,0 +1,58 @@
+{
+    "name": "liveintent/laravel-resource-search",
+    "description": "Utility for easily setting up search requests for Laravel resources",
+    "keywords": [
+        "LiveIntent",
+        "laravel",
+        "laravel-resource-search"
+    ],
+    "homepage": "https://github.com/liveintent/laravel-resource-search",
+    "require": {
+        "php": "^8.0|^8.1",
+        "laravel/framework": "^9.24",
+        "spatie/laravel-package-tools": "^1.12"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.1",
+        "nunomaduro/collision": "^6.2",
+        "nunomaduro/larastan": "^2.1",
+        "orchestra/testbench": "^7.6",
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "LiveIntent\\LaravelResourceSearch\\": "src",
+            "LiveIntent\\LaravelResourceSearch\\Database\\Factories\\": "database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LiveIntent\\LaravelResourceSearch\\Tests\\": "tests",
+            "LiveIntent\\LaravelResourceSearch\\Tests\\Fixtures\\App\\": "tests/Fixtures/app",
+            "LiveIntent\\LaravelResourceSearch\\Tests\\Fixtures\\Database\\Factories\\": "tests/Fixtures/database/factories/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "./setup-hooks.sh",
+        "lint": "vendor/bin/pint",
+        "analyze": "vendor/bin/phpstan analyse",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/testbench package:test",
+        "test-coverage": "vendor/bin/testbench package:test --coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LiveIntent\\LaravelResourceSearch\\LaravelResourceSearchServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

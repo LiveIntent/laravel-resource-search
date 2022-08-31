@@ -1,0 +1,32 @@
+name: lint-php
+
+on:
+  push:
+    paths:
+      - '**.php'
+      - 'phpstan.neon.dist'
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: 8.1
+        coverage: none
+        tools: cs2pr
+
+    - name: Install dependencies
+      run: composer i
+
+    - name: Run linter
+      run: composer lint -- --test --format=checkstyle | cs2pr
+
+    - name: Run analyzer
+      run: composer analyze -- --error-format=github
