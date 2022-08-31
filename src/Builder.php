@@ -369,7 +369,7 @@ class Builder
                 $caseSensitive = (bool) Arr::get(
                     $requestedSearchDescriptor,
                     'case_sensitive',
-                    config('orion.search.case_sensitive')
+                    config('resource-search.search.case_sensitivity_default')
                 );
 
                 /**
