@@ -41,6 +41,7 @@
         "analyze": "vendor/bin/phpstan analyse",
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/testbench package:test",
+        "migrate-test-db": "vendor/bin/testbench migrate --realpath --path tests/Fixtures/database/migrations",
         "test-coverage": "vendor/bin/testbench package:test --coverage"
     },
     "config": {
