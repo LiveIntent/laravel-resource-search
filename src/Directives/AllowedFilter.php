@@ -60,7 +60,7 @@ class AllowedFilter
         return new static(
             $name,
             $internalName,
-            ['=', '!=', 'in', 'not in', '>', '>=', '<', '<=', 'like', 'not like'],
+            ['=', '!=', 'in', 'not in', '>', '>=', '<', '<=', 'like', 'not like', 'ilike', 'not ilike'],
             ['string', 'nullable']
         );
     }

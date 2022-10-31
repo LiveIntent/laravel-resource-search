@@ -224,11 +224,30 @@ class Builder
         if ($constraint !== 'whereJsonContains' && (! is_array(
             $filterDescriptor['value']
         ) || $constraint === 'whereDate')) {
-            $query->{$or ? 'or'.ucfirst($constraint) : $constraint}(
-                $field,
-                $filterDescriptor['operator'] ?? '=',
-                $filterDescriptor['value']
-            );
+            // We're just going to use manual case insensitive like as it has
+            // wider db support and is usually supposed to be faster. One
+            // day someone might want to make this more configurable.
+            $supportsNativeILike = false;
+
+            $operator = $filterDescriptor['operator'] ?? '=';
+            $constraint = $or ? 'or'.ucfirst($constraint) : $constraint;
+
+            /** @phpstan-ignore-next-line */
+            if (str_contains($operator, 'ilike') && ! $supportsNativeILike) {
+                $constraint = $or ? 'orWhereRaw' : 'whereRaw';
+                $operator = str_replace('ilike', 'like', $operator);
+
+                $query->{$constraint}(
+                    "lower({$field}) {$operator} lower(?)",
+                    [$filterDescriptor['value']]
+                );
+            } else {
+                $query->{$constraint}(
+                    $field,
+                    $filterDescriptor['operator'] ?? '=',
+                    $filterDescriptor['value']
+                );
+            }
         } elseif ($constraint === 'whereJsonContains') {
             if (! is_array($filterDescriptor['value'])) {
                 $query->{$or ? 'orWhereJsonContains' : 'whereJsonContains'}(

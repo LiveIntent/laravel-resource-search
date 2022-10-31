@@ -293,6 +293,40 @@ class SearchableResourceTest extends TestCase
     }
 
     /** @test */
+    public function fields_are_filterable_with_the_ilike_and_not_ilike_operators()
+    {
+        $postA = Post::factory()->create(['title' => 'Test Post A']);
+        $postB = Post::factory()->create(['title' => 'Test Post B']);
+        $postC = Post::factory()->create(['title' => 'Test Post C']);
+
+        $resource = new class(null) extends TestJsonResource
+        {
+            public $model = Post::class;
+
+            public function allowedFilters()
+            {
+                return [
+                    AllowedFilter::string('title'),
+                ];
+            }
+        };
+
+        $this->request([
+            'filters' => [
+                ['field' => 'title', 'operator' => 'ilike', 'value' => 'test post%'],
+                ['field' => 'title', 'operator' => 'not ilike', 'value' => '%B%'],
+            ],
+        ]);
+
+        $results = $resource::search();
+
+        $this->assertCount(2, $results);
+        $this->assertTrue($results->contains('id', $postA->id));
+        $this->assertFalse($results->contains('id', $postB->id));
+        $this->assertTrue($results->contains('id', $postC->id));
+    }
+
+    /** @test */
     public function fields_are_filterable_with_the_inequality_operators()
     {
         $postA = Post::factory()->create(['publish_at' => '2019-01-01 09:35:14']);

@@ -37,9 +37,20 @@ class TestCase extends Orchestra
             ->group(__DIR__.'/Fixtures/routes/api.php');
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function defineEnvironment($app)
     {
-        config()->set('database.default', 'testing');
+        $driver = env('DB_CONNECTION') === 'testing' ? 'sqlite' : env('DB_CONNECTION', 'sqlite');
+
+        $app['config']->set('database.default', 'testing');
+        $app['config']->set('database.connections.testing', array_filter([
+            'driver' => $driver,
+            'host' => env('DB_HOST'),
+            'port' => env('DB_PORT'),
+            'database' => env('DB_DATABASE', ':memory:'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+            'prefix' => '',
+        ]));
     }
 
     protected function getPackageProviders($app)

@@ -7,18 +7,54 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    env:
+      DB_USERNAME: root
+      DB_PASSWORD: secret
+      DB_DATABASE: testdb
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         php: [8.1]
         laravel: [9.*]
+        mysql: [8.0]
+        postgres: [14]
         stability: [prefer-stable]
         include:
           - laravel: 9.*
             testbench: ^7.0
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+
+    services:
+      mysql:
+        image: mysql:${{ matrix.mysql }}
+        env:
+          MYSQL_DATABASE: ${{ env.DB_DATABASE }}
+          MYSQL_USER: ${{ env.DB_USERNAME }}
+          MYSQL_PASSWORD: ${{ env.DB_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ env.DB_PASSWORD }}
+        ports:
+          - 3306
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+      postgres:
+        image: postgres:${{ matrix.postgres }}
+        env:
+          POSTGRES_DB: ${{ env.DB_DATABASE }}
+          POSTGRES_USER: ${{ env.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
+        ports:
+          - 5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -41,5 +77,20 @@ jobs:
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: Execute tests
+      - name: Execute tests in memory
         run: composer test
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+
+      - name: Execute tests against mysql
+        run: composer test
+        env:
+          DB_CONNECTION: mysql
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+
+      - name: Execute tests against postgres
+        run: composer test
+        env:
+          DB_CONNECTION: pgsql
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
