@@ -8,12 +8,16 @@ use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use LiveIntent\LaravelResourceSearch\LaravelResourceSearchServiceProvider;
 
 class TestCase extends Orchestra
 {
     use RefreshDatabase;
 
+    /**
+     * Set up the test environment.
+     */
     public function setUp(): void
     {
         parent::setUp();
@@ -25,11 +29,37 @@ class TestCase extends Orchestra
         $this->registerResponseMacros();
     }
 
-    protected function defineDatabaseMigrations()
+    /**
+     * Refresh an in-memory database.
+     */
+    protected function refreshInMemoryDatabase()
     {
-        $this->loadMigrationsFrom(__DIR__.'/Fixtures/database/migrations');
+        $this->artisan('migrate', [
+            '--path' => __DIR__.'/Fixtures/database/migrations',
+            '--realpath' => true,
+        ]);
     }
 
+    /**
+     * Refresh a conventional test database.
+     */
+    protected function refreshTestDatabase()
+    {
+        if (! RefreshDatabaseState::$migrated) {
+            $this->artisan('migrate', [
+                '--path' => __DIR__.'/Fixtures/database/migrations',
+                '--realpath' => true,
+            ]);
+
+            RefreshDatabaseState::$migrated = true;
+        }
+
+        $this->beginDatabaseTransaction();
+    }
+
+    /**
+     * Define the test application routes.
+     */
     protected function defineRoutes($router)
     {
         Route::prefix('api')
@@ -37,6 +67,9 @@ class TestCase extends Orchestra
             ->group(__DIR__.'/Fixtures/routes/api.php');
     }
 
+    /**
+     * Set up the test application environment.
+     */
     protected function defineEnvironment($app)
     {
         $driver = env('DB_CONNECTION') === 'testing' ? 'sqlite' : env('DB_CONNECTION', 'sqlite');
