@@ -8,7 +8,7 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     env:
-      DB_USERNAME: root
+      DB_USERNAME: superman
       DB_PASSWORD: secret
       DB_DATABASE: testdb
     strategy:
