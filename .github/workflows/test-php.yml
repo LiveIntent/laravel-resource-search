@@ -11,6 +11,7 @@ jobs:
       DB_USERNAME: superman
       DB_PASSWORD: secret
       DB_DATABASE: testdb
+      DB_HOST: 127.0.0.1
     strategy:
       fail-fast: true
       matrix:
