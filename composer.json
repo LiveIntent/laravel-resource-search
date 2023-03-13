@@ -8,15 +8,15 @@
     ],
     "homepage": "https://github.com/liveintent/laravel-resource-search",
     "require": {
-        "php": "^8.0|^8.1",
-        "laravel/framework": "^9.24",
+        "php": "^8.1|^8.2",
+        "laravel/framework": "^10.0",
         "spatie/laravel-package-tools": "^1.12"
     },
     "require-dev": {
         "laravel/pint": "^1.1",
         "nunomaduro/collision": "^6.2",
         "nunomaduro/larastan": "^2.1",
-        "orchestra/testbench": "^7.6",
+        "orchestra/testbench": "^8.0",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
