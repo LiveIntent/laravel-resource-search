@@ -122,12 +122,6 @@ class SearchInputValidator
 
     /**
      * Ref: https://github.com/tailflow/laravel-orion/blob/main/src/Drivers/Standard/ParamsValidator.php
-     *
-     * @param  string  $prefix
-     * @param  int  $maxDepth
-     * @param  array  $rules
-     * @param  int  $currentDepth
-     * @return array
      */
     protected function getNestedFilterRules(string $prefix, int $maxDepth, array $rules = [], int $currentDepth = 1): array
     {

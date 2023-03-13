@@ -32,9 +32,6 @@ class RelationsResolver
 
     /**
      * Build the list of relations allowed to be included together with a resource based on the "include" query parameter.
-     *
-     * @param  Request  $request
-     * @return array
      */
     public function requestedRelations(Request $request): array
     {
@@ -69,9 +66,6 @@ class RelationsResolver
 
     /**
      * Resolves relation name from the given param constraint.
-     *
-     * @param  string  $paramConstraint
-     * @return string
      */
     public function relationFromParamConstraint(string $paramConstraint): string
     {
@@ -82,9 +76,6 @@ class RelationsResolver
 
     /**
      * Resolves relation field from the given param constraint.
-     *
-     * @param  string  $paramConstraint
-     * @return string
      */
     public function relationFieldFromParamConstraint(string $paramConstraint): string
     {
@@ -93,9 +84,6 @@ class RelationsResolver
 
     /**
      * Resolved relation table name from the given relation instance.
-     *
-     * @param  Relation  $relationInstance
-     * @return string
      */
     public function relationTableFromRelationInstance(Relation $relationInstance): string
     {
@@ -104,9 +92,6 @@ class RelationsResolver
 
     /**
      * Resolves relation foreign key from the given relation instance.
-     *
-     * @param  Relation  $relationInstance
-     * @return string
      */
     public function relationForeignKeyFromRelationInstance(Relation $relationInstance): string
     {
@@ -117,9 +102,6 @@ class RelationsResolver
 
     /**
      * Resolves relation local key from the given relation instance.
-     *
-     * @param  Relation  $relationInstance
-     * @return string
      */
     public function relationLocalKeyFromRelationInstance(Relation $relationInstance): string
     {
@@ -143,11 +125,6 @@ class RelationsResolver
 
     /**
      * Removes loaded relations that were not requested and exposed on the given collection of entities.
-     *
-     * @param  Collection  $entities
-     * @param  array  $requestedRelations
-     * @param  bool  $normalized
-     * @return Collection
      */
     public function guardRelationsForCollection(Collection $entities, array $requestedRelations, bool $normalized = false): Collection
     {
@@ -160,11 +137,6 @@ class RelationsResolver
 
     /**
      * Removes loaded relations that were not requested and exposed on the given entity.
-     *
-     * @param  Model  $entity
-     * @param  array  $requestedRelations
-     * @param  bool  $normalized
-     * @return Model
      */
     public function guardRelations(Model $entity, array $requestedRelations, bool $normalized = false): Model
     {

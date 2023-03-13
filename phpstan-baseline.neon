@@ -6,11 +6,6 @@ parameters:
 			path: src/Builder.php
 
 		-
-			message: "#^Parameter \\#1 \\$query of method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:addNestedWhereQuery\\(\\) expects Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany, Illuminate\\\\Database\\\\Query\\\\Builder given\\.$#"
-			count: 1
-			path: src/Builder.php
-
-		-
 			message: "#^Property Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:\\$joins \\(array\\) on left side of \\?\\? is not nullable\\.$#"
 			count: 1
 			path: src/Builder.php

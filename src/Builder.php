@@ -57,7 +57,6 @@ class Builder
      * Apply filters, searching, and sorting based on the payload to the query.
      *
      * @param  EloquentBuilder|Relation  $query
-     * @param  array  $payload
      * @return EloquentBuilder|Relation
      */
     public function buildQuery($query, array $payload = [])
@@ -74,7 +73,6 @@ class Builder
      * Apply scopes to the given query builder based on the query parameters.
      *
      * @param  EloquentBuilder|Relation  $query
-     * @param  array  $scopes
      */
     public function applyScopesToQuery($query, array $scopes = []): void
     {
@@ -100,7 +98,6 @@ class Builder
      * Apply filters to the given query builder based on the query parameters.
      *
      * @param  EloquentBuilder|Relation  $query
-     * @param  array  $filterDescriptors
      *
      * @throws JsonException
      */
@@ -172,10 +169,7 @@ class Builder
     /**
      * Builds filter's query where clause based on the given filterable.
      *
-     * @param  string  $field
-     * @param  array  $filterDescriptor
      * @param  EloquentBuilder|Relation  $query
-     * @param  bool  $or
      * @return EloquentBuilder|Relation
      *
      * @throws JsonException
@@ -196,10 +190,7 @@ class Builder
     }
 
     /**
-     * @param  string  $field
-     * @param  array  $filterDescriptor
      * @param  EloquentBuilder|Relation  $query
-     * @param  bool  $or
      * @return EloquentBuilder|Relation
      *
      * @throws JsonException
@@ -279,10 +270,7 @@ class Builder
     /**
      * Builds filter's pivot query where clause based on the given filterable.
      *
-     * @param  string  $field
-     * @param  array  $filterDescriptor
      * @param  EloquentBuilder|Relation  $query
-     * @param  bool  $or
      * @return EloquentBuilder|Relation
      */
     protected function buildPivotFilterQueryWhereClause(
@@ -311,10 +299,7 @@ class Builder
     }
 
     /**
-     * @param  string  $field
-     * @param  array  $filterDescriptor
      * @param  EloquentBuilder|BelongsToMany  $query
-     * @param  bool  $or
      * @return EloquentBuilder
      */
     protected function buildPivotFilterNestedQueryWhereClause(
@@ -356,9 +341,6 @@ class Builder
 
     /**
      * Builds a complete field name with table.
-     *
-     * @param  string  $field
-     * @return string
      */
     public function getQualifiedFieldName(string $field): string
     {
@@ -444,7 +426,6 @@ class Builder
      * Apply sorting to the given query builder based on the "sort" query parameter.
      *
      * @param  EloquentBuilder  $query
-     * @param  array  $sorts
      */
     public function applySortingToQuery($query, array $sorts = []): void
     {
